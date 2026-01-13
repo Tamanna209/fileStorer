@@ -34,6 +34,8 @@ const CreateUser = async (req, res) => {
         user
     })
   } catch (err) {
+    console.log(err);
+    
     return res.json({ message: "Internal server error" });
   }
 };
