@@ -1,8 +1,10 @@
 const express=require("express");
-const { CreateUser } = require("../controllers/user.controller");
+const { CreateUser, uploaderPhotos } = require("../controllers/user.controller");
 const UserRoutes=express.Router();
 const upload=require("../middlewares/multerSingleStorage.middleware");
 
 UserRoutes.post('/user', upload.single("profilePic")  , CreateUser);
+
+UserRoutes.post("/gallery", upload.array("photos"), uploaderPhotos);
 
 module.exports=UserRoutes;
