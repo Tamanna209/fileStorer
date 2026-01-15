@@ -4,6 +4,7 @@ const UserModel = require("../models/users.model");
 const GalleryModel = require("../models/gallery.model");
 //create user
 const CreateUser = async (req, res) => {
+     
   try {
     const { name, email } = req.body;
     if (!name || !email) {
@@ -11,8 +12,19 @@ const CreateUser = async (req, res) => {
         message: "All fields are mendatory",
       });
     }
+ 
+    const existinguser=await UserModel.findOne({email:email});
 
-    let profilePicurl = "";
+    if(existinguser){
+      console.log("phle se email hai dubara mt create kro");
+      
+      return res.status(409).json({
+        message:'User already existed with same email.'
+      });
+    }
+
+
+     let profilePicurl = "";
 
     if (req.file) {
       let uplaodResult = await cloudinary.uploader.upload(req.file.path, {
@@ -20,6 +32,7 @@ const CreateUser = async (req, res) => {
       });
 
       profilePicurl=uplaodResult.secure_url;
+        fs.unlinkSync(req.file.path);
     }
 
 
@@ -31,7 +44,7 @@ const CreateUser = async (req, res) => {
     })
     await user.save();
      
-      fs.unlinkSync(req.file.path);
+    
 
     return res.status(201).json({
         message:'User created seccessfully',
@@ -40,7 +53,7 @@ const CreateUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     
-    return res.json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
