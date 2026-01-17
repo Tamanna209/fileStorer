@@ -60,7 +60,15 @@ const CreateUser = async (req, res) => {
 //uplaod photos
 const uploaderPhotos=async(req, res)=>{
   try{
-   const {userId}=req.body;
+   const {id}=req.params;
+
+   const userMatched=await UserModel.findById({id});
+
+   if(!userMatched){
+    return res.status(409).json({
+      message:'user not found'
+    })
+   }
 
    if(!req.files || req.files.length===0){
     return res.json({

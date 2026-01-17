@@ -5,6 +5,6 @@ const upload=require("../middlewares/multerSingleStorage.middleware");
 
 UserRoutes.post('/user', upload.single("profilePic")  , CreateUser);
 
-UserRoutes.post("/gallery", upload.array("photos"), uploaderPhotos);
+UserRoutes.post("/gallery/:id", upload.array("photos"), uploaderPhotos);
 
 module.exports=UserRoutes;
