@@ -8,10 +8,10 @@ const App = () => {
     <div>
       <Routes>
         <Route path='/' element={ <Register/>}/>
-        <Route path='/gallery' element={<Gallery/>}/>
+        <Route path='/gallery/:id' element={<Gallery/>}/>
       </Routes>
      
-      <Toaster position='center'/>
+      <Toaster position='top-center'/>
     </div>
   )
 }
